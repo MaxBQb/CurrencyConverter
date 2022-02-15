@@ -1,9 +1,9 @@
-package lab.maxb.currency_converter.Presentation
+package lab.maxb.currency_converter.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import lab.maxb.currency_converter.Presentation.View.MainFragment
+import androidx.appcompat.app.AppCompatActivity
 import lab.maxb.currency_converter.R
+import lab.maxb.currency_converter.presentation.view.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

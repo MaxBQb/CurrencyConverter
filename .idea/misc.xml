@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidDev/Project/CurrencyConverter/app/src/main/res/drawable/ic_baseline_sync_alt_24.xml" value="0.1" />
+        <entry key="..\:/AndroidDev/Project/CurrencyConverter/app/src/main/res/layout/main_activity.xml" value="0.1" />
         <entry key="..\:/AndroidDev/Project/CurrencyConverter/app/src/main/res/layout/main_fragment.xml" value="0.1" />
       </map>
     </option>
