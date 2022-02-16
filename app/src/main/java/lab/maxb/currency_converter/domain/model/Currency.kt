@@ -1,6 +1,6 @@
 package lab.maxb.currency_converter.domain.model
 
-data class Currency(
+open class Currency(
     val code: String,
     val name: String,
 ) {

@@ -1,7 +1,10 @@
 package lab.maxb.currency_converter.presentation.viewModel
 
 import androidx.databinding.Bindable
-import androidx.lifecycle.liveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import lab.maxb.currency_converter.BR
 import lab.maxb.currency_converter.domain.model.Currency
 import lab.maxb.currency_converter.domain.model.CurrencyConverter
@@ -19,6 +22,7 @@ class MainViewModel(
             if (field != value) {
                 field = value
                 convert()
+                notifyPropertyChanged(BR.availableConvertOptions)
             }
         }
 
@@ -42,31 +46,17 @@ class MainViewModel(
 
     var outcomeCurrencyAmount = 0.0
         @Bindable get
-        set(value) {
-            if (field != value) {
-                field = value
-                convert(true)
-            }
-        }
 
-    val availableCurrencies = liveData {
-        emit(currencyRepository.availableCurrencies)
+    val availableCurrencies = currencyRepository.availableCurrencies.asLiveData()
+    val availableConvertOptions
+        @Bindable get() = currencyRepository.getAvailableConversionOptions(incomeCurrency).asLiveData()
+
+    private fun convert() = viewModelScope.launch {
+        outcomeCurrencyAmount = (convertersRepository.get(
+            incomeCurrency, outcomeCurrency
+        ).first() ?: NO_CONVERTER_FOUND).convert(incomeCurrencyAmount)
+        notifyPropertyChanged(BR.outcomeCurrencyAmount)
     }
-
-    private fun convertCurrency(from: Currency, to: Currency, value: Double) =
-        (convertersRepository.getConverter(from, to)
-            ?: NO_CONVERTER_FOUND).convert(value)
-
-    private fun convert(backwards: Boolean = false)
-        = if (backwards) {
-            incomeCurrencyAmount = convertCurrency(
-                outcomeCurrency, incomeCurrency, outcomeCurrencyAmount)
-            notifyPropertyChanged(BR.incomeCurrencyAmount)
-        } else {
-            outcomeCurrencyAmount = convertCurrency(
-                incomeCurrency, outcomeCurrency, incomeCurrencyAmount)
-            notifyPropertyChanged(BR.outcomeCurrencyAmount)
-        }
 
     companion object {
         val NO_CURRENCY_SELECTED = Currency("", "")
