@@ -10,8 +10,16 @@ import androidx.databinding.InverseBindingListener
 
 object SpinnerBindings {
     @JvmStatic @BindingAdapter("entries")
-    fun Spinner.setEntries(entries: List<Any>?) {
-        ArrayAdapter(context, android.R.layout.simple_spinner_item, entries ?: return).apply {
+    fun <T> Spinner.setEntries(entries: List<T>?) {
+        (adapter as? ArrayAdapter<T>)?.let {
+            val value = selectedValue
+            it.setNotifyOnChange(false)
+            it.clear()
+            it.addAll(entries ?: return)
+            it.setNotifyOnChange(true)
+            it.notifyDataSetChanged()
+            selectedValue = value ?: return
+        } ?: ArrayAdapter(context, android.R.layout.simple_spinner_item, entries ?: return).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             adapter = this
         }

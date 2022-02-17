@@ -18,10 +18,10 @@ interface CurrencyDAO {
     fun getAll(): Flow<List<CurrencyDTO>>
 
     @Transaction
-    @Query("SELECT * FROM currencies JOIN converters ON code = fromCode")
+    @Query("SELECT DISTINCT code, name FROM currencies JOIN converters ON code = fromCode")
     fun getAvailable(): Flow<List<CurrencyDTO>>
 
     @Transaction
-    @Query("SELECT * FROM currencies JOIN converters ON code = toCode WHERE fromCode = :from")
+    @Query("SELECT DISTINCT code, name FROM currencies JOIN converters ON code = toCode WHERE fromCode = :from")
     fun getAvailableConversionOptions(from: String): Flow<List<CurrencyDTO>>
 }

@@ -22,8 +22,7 @@ class MainViewModel(
             if (field != value) {
                 field = value
                 convert()
-                availableConvertOptions =
-                    currencyRepository.getAvailableConversionOptions(incomeCurrency).asLiveData()
+                availableConvertOptions = _availableConvertOptions
                 notifyPropertyChanged(BR.availableConvertOptions)
             }
         }
@@ -49,9 +48,15 @@ class MainViewModel(
     var outcomeCurrencyAmount = 0.0
         @Bindable get
 
-    val availableCurrencies = currencyRepository.availableCurrencies.asLiveData()
-    var availableConvertOptions =
-        currencyRepository.getAvailableConversionOptions(incomeCurrency).asLiveData()
+    val _availableCurrencies
+       get() = currencyRepository.availableCurrencies.asLiveData()
+
+    val _availableConvertOptions
+       get() = currencyRepository.getAvailableConversionOptions(incomeCurrency).asLiveData()
+
+    var availableCurrencies = _availableCurrencies
+        @Bindable get
+    var availableConvertOptions = _availableConvertOptions
         @Bindable get
 
     private fun convert() = viewModelScope.launch {
@@ -70,6 +75,15 @@ class MainViewModel(
                 incomeCurrency, outcomeCurrency
             ).first() ?: NO_CONVERTER_FOUND
 
+    fun handleNetworkState(isConnected: Boolean) {
+        availableCurrencies = _availableCurrencies
+        notifyPropertyChanged(BR.availableCurrencies)
+        notifyPropertyChanged(BR.incomeCurrency)
+        availableConvertOptions = _availableConvertOptions
+        notifyPropertyChanged(BR.availableConvertOptions)
+        notifyPropertyChanged(BR.outcomeCurrency)
+        convert()
+    }
 
     companion object {
         val NO_CURRENCY_SELECTED = Currency("", "")

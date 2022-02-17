@@ -9,12 +9,13 @@ import lab.maxb.currency_converter.presentation.repository.implementations.local
 import lab.maxb.currency_converter.presentation.repository.implementations.local.room.model.CurrencyConverterDTO
 import lab.maxb.currency_converter.presentation.repository.implementations.local.room.model.toDTO
 import lab.maxb.currency_converter.presentation.repository.implementations.network.exchangerateAPI.ExchangerateService
+import lab.maxb.currency_converter.presentation.repository.implementations.network.exchangerateAPI.NetworkStateListener
 import lab.maxb.currency_converter.presentation.repository.interfaces.ConvertersRepository
-import retrofit2.HttpException
 
 class ConvertersRepositoryImpl(
     db: LocalDatabase,
-    private val service: ExchangerateService
+    private val service: ExchangerateService,
+    private val networkStateListener: NetworkStateListener,
 ): ConvertersRepository {
     private val dao = db.currencyConverterDao()
     override suspend fun save(converter: CurrencyConverter)
@@ -28,6 +29,8 @@ class ConvertersRepositoryImpl(
 
     private suspend fun refreshConverter(from: String, to: String) {
         try {
+            if (!networkStateListener.isConnected)
+                return
             service.getConverter(from, to)?.let {
                 dao.save(
                     CurrencyConverterDTO(
@@ -37,7 +40,7 @@ class ConvertersRepositoryImpl(
                     )
                 )
             }
-        } catch (e: HttpException) {
+        } catch (e: Throwable) {
             e.printStackTrace()
         }
     }
