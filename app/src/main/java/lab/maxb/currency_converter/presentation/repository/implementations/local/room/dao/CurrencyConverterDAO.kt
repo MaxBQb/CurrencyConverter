@@ -1,4 +1,4 @@
-package lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.dao
+package lab.maxb.currency_converter.presentation.repository.implementations.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,8 +6,8 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.model.CurrencyConverterDTO
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.relations.FullCurrencyConverter
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.model.CurrencyConverterDTO
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.relations.FullCurrencyConverter
 
 @Dao
 interface CurrencyConverterDAO {

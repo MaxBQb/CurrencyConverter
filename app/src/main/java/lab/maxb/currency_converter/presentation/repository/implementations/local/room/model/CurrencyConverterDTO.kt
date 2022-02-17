@@ -1,4 +1,4 @@
-package lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.model
+package lab.maxb.currency_converter.presentation.repository.implementations.local.room.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

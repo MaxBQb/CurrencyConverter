@@ -5,4 +5,8 @@ open class Currency(
     val name: String,
 ) {
     override fun toString() = "$code:  $name"
+    override operator fun equals(other: Any?)
+        = if (other is Currency)
+            other.code == code
+        else super.equals(other)
 }

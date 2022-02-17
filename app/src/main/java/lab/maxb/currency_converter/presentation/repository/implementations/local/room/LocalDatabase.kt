@@ -1,13 +1,13 @@
-package lab.maxb.currency_converter.presentation.repository.implementations.localDb.room
+package lab.maxb.currency_converter.presentation.repository.implementations.local.room
 
 import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.dao.CurrencyConverterDAO
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.dao.CurrencyDAO
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.model.CurrencyConverterDTO
-import lab.maxb.currency_converter.presentation.repository.implementations.localDb.room.model.CurrencyDTO
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.dao.CurrencyConverterDAO
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.dao.CurrencyDAO
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.model.CurrencyConverterDTO
+import lab.maxb.currency_converter.presentation.repository.implementations.local.room.model.CurrencyDTO
 
 @Database(entities = [
             CurrencyDTO::class,
